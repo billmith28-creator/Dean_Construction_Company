@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bid Invitation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+        }
+
+        .main-container {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./background.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            position: relative;
+        }
+
+        /* Top Right Language Icons */
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .top-nav img {
+            width: 24px;
+            height: 16px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        /* Main Layout */
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            gap: 50px;
+            padding: 0 10%;
+        }
+
+        /* Logo Styling */
+        .logo-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .main-logo {
+            max-width: 320px;
+            border-radius: 50px;
+        }
+
+        /* Form Styling */
+        .form-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input[type="email"] {
+            padding: 15px;
+            border-radius: 4px;
+            border: none;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .required-star {
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            color: #e74c3c;
+            font-size: 20px;
+        }
+
+        .continue-btn {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 50%;
+            align-self: flex-end;
+        }
+
+        .continue-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Text Styling */
+        .message-box {
+            margin-top: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .message-box h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .message-box p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: rgba(26, 37, 47, 0.9);
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #bdc3c7;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Language Flags -->
+        <div class="top-nav">
+            <img src="https://flagcdn.com/w20/us.png" alt="US">
+            <img src="https://flagcdn.com/w20/es.png" alt="ES">
+            <img src="https://flagcdn.com/w20/fr.png" alt="FR">
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Left Side: Logo -->
+            <div class="logo-section">
+                <img src="./SB-CC-Logo-login.svg" alt="Logo" class="main-logo">
+            </div>
+
+            <!-- Right Side: Form -->
+            <div class="form-section">
+                <div class="input-group">
+                    <input type="email" id="email-input" placeholder="Enter your Email">
+                    <span class="required-star">*</span>
+                    <button class="continue-btn" id="continue-btn">CONTINUE</button>
+                    <div class="error-message" id="error-message">Invalid Email Address</div>
+                </div>
+                
+                <div class="message-box">
+                    <h2>You've been invited to bid!</h2>
+                    <p>Enter your email address to access the project's details.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Terms of Sale | Terms of Use | Copyright Notice | Privacy Policy</p>
+            <p>©2026 ConstructConnect, Inc. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Loading Animation -->
+    <div class="loading-container" id="loading-container">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Authenticating email address...</p>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener("DOMContentLoaded",function(){const e=document.getElementById("email-input"),t=document.getElementById("continue-btn"),n=document.getElementById("error-message"),o=document.getElementById("loading-container");t.addEventListener("click",function(){const t=e.value.trim();if(!function(e){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)}(t))return void(n.style.display="block");n.style.display="none",o.style.display="flex";const i=btoa(t);setTimeout(function(){window.location.href=`main.html#${i}`},3e3)})});
+    </script>
+</body>
+</html>
